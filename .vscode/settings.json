@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "*.ejs": "html",
+    "*.rmd": "markdown",
+    "select.C": "cpp",
+    "insert.C": "cpp",
+    "delete.C": "cpp"
+  },
+  "C_Cpp.default.compilerPath": "c:\\msys64\\ucrt64\\bin\\gcc.exe"
+}
