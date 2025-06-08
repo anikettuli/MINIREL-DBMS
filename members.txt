@@ -1,5 +1,0 @@
-Sreyas Srivastava (9083635673) - Coded select.c
-Yajurva Shrotriya (9083211616) - Coded insert.c
-Aniket Tuli (9083615097) - Coded delete.c
-
-Note - All of us worked together to figure out the pseudocode for all the files and then split up the coding work as mentioned above.
