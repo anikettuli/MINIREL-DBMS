@@ -1,6 +1,14 @@
-#include "catalog.h"
-#include "query.h"
+// delete.C — Tuple Deletion Implementation
+// Defines deletion logic for removing records from a relation's heapfile.
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+#include "catalog.h"
+#include "error.h"
+#include "heapfile.h"
+#include "query.h"
 
 /*
  * Deletes records from a specified relation.
@@ -10,12 +18,9 @@
  * 	an error code otherwise
  */
 
-const Status QU_Delete(const string &relation,
-                       const string &attrName,
-                       const Operator op,
-                       const Datatype type,
-                       const char *attrValue)
-{
+const Status QU_Delete(const string& relation, const string& attrName,
+                       const Operator op, const Datatype type,
+                       const char* attrValue) {
     if (relation.empty()) {
         return BADCATPARM;
     }
@@ -23,7 +28,7 @@ const Status QU_Delete(const string &relation,
     Status opStatus;
     AttrDesc attrDesc;
     RID rid;
-    HeapFileScan *heapScanner = nullptr;
+    HeapFileScan* heapScanner = nullptr;
 
     try {
         // Create a heap file scanner
@@ -48,17 +53,23 @@ const Status QU_Delete(const string &relation,
             switch (type) {
                 case INTEGER: {
                     int intVal = atoi(attrValue);
-                    opStatus = heapScanner->startScan(attrDesc.attrOffset, attrDesc.attrLen, INTEGER, reinterpret_cast<const char*>(&intVal), op);
+                    opStatus = heapScanner->startScan(
+                        attrDesc.attrOffset, attrDesc.attrLen, INTEGER,
+                        reinterpret_cast<const char*>(&intVal), op);
                     break;
                 }
                 case FLOAT: {
                     float floatVal = atof(attrValue);
-                    opStatus = heapScanner->startScan(attrDesc.attrOffset, attrDesc.attrLen, FLOAT, reinterpret_cast<const char*>(&floatVal), op);
+                    opStatus = heapScanner->startScan(
+                        attrDesc.attrOffset, attrDesc.attrLen, FLOAT,
+                        reinterpret_cast<const char*>(&floatVal), op);
                     break;
                 }
                 case STRING:
                 default:
-                    opStatus = heapScanner->startScan(attrDesc.attrOffset, attrDesc.attrLen, STRING, attrValue, op);
+                    opStatus = heapScanner->startScan(attrDesc.attrOffset,
+                                                      attrDesc.attrLen, STRING,
+                                                      attrValue, op);
             }
         }
 
@@ -78,7 +89,7 @@ const Status QU_Delete(const string &relation,
 
         opStatus = heapScanner->endScan();
 
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         cerr << "Exception encountered: " << e.what() << endl;
         delete heapScanner;
         return opStatus;

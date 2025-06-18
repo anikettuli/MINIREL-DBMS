@@ -1,18 +1,17 @@
-#include <memory.h>
-#include <unistd.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <fcntl.h>
+// quit.C — Exit Command Implementation
+// Defines QU_Quit to cleanly shut down the DBMS and free resources.
+
 #include <iostream>
-#include <stdio.h>
-#include "page.h"
+
 #include "buf.h"
 #include "catalog.h"
+#include "page.h"
+#include "query.h"
 #include "utility.h"
 
-extern BufMgr *bufMgr;
-extern RelCatalog *relCat;
-extern AttrCatalog *attrCat;
+extern BufMgr* bufMgr;
+extern RelCatalog* relCat;
+extern AttrCatalog* attrCat;
 
 //
 // Closes the catalog files in preparation for shutdown.
@@ -20,16 +19,15 @@ extern AttrCatalog *attrCat;
 // No return value.
 //
 
-void UT_Quit(void)
-{
-  // close relcat and attrcat
+void UT_Quit(void) {
+    // close relcat and attrcat
 
-  delete relCat;
-  delete attrCat;
+    delete relCat;
+    delete attrCat;
 
-  // delete bufMgr to flush out all dirty pages
+    // delete bufMgr to flush out all dirty pages
 
-  delete bufMgr;
+    delete bufMgr;
 
-  exit(1);
+    exit(1);
 }

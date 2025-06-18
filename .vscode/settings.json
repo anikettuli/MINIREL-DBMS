@@ -2,9 +2,30 @@
   "files.associations": {
     "*.ejs": "html",
     "*.rmd": "markdown",
+    "*.Rmd": "rmd",
     "select.C": "cpp",
     "insert.C": "cpp",
-    "delete.C": "cpp"
+    "delete.C": "cpp",
+    "buf.C": "cpp",
+    "bufHash.C": "cpp",
+    "catalog.C": "cpp",
+    "db.C": "cpp",
+    "dbdestroy.C": "cpp",
+    "destroy.C": "cpp",
+    "heapfile.C": "cpp",
+    "help.C": "cpp",
+    "join.C": "cpp",
+    "load.C": "cpp",
+    "page.C": "cpp",
+    "print.C": "cpp",
+    "quit.C": "cpp",
+    "sort.C": "cpp",
+    "create.C": "cpp",
+    "error.C": "cpp",
+    "dbcreate.C": "cpp",
+    "minirel.C": "cpp",
+    "joinHT.C": "cpp",
+    "partition.C": "cpp"
   },
   "C_Cpp.default.compilerPath": "c:\\msys64\\ucrt64\\bin\\gcc.exe"
 }

@@ -1,63 +1,74 @@
-#include <stdio.h>
+// minirel.C — Main Program for MiniRel DBMS
+// Initializes system components and enters the interactive command loop.
+
 #include <unistd.h>
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+
+#include "buf.h"
 #include "catalog.h"
+#include "error.h"
 #include "query.h"
-#include "stdio.h"
-#include "stdlib.h"
 
-
+// global objects: database, manager, catalogs, error handler
 DB db;
 Error error;
 
-BufMgr *bufMgr;
-RelCatalog *relCat;
-AttrCatalog *attrCat;
+BufMgr* bufMgr;
+RelCatalog* relCat;
+AttrCatalog* attrCat;
 
 JoinType JoinMethod;
 
-int main(int argc, char **argv)
-{
-  if (argc < 2) {
-    cerr << "Usage: " << argv[0] << " dbname" << endl;
-    return 1;
-  }
+using namespace std;
 
-  if (chdir(argv[1]) < 0) {
-    perror("chdir");
-    exit(1);
-  }
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << " dbname" << endl;
+        return 1;
+    }
 
-  JoinMethod = NLJoin;  // default join method
-  if (argc == 3) // alternative join method specified
-  {
-       if (strcmp (argv[2],"SM") == 0) JoinMethod = SMJoin;
-       else if (strcmp (argv[2],"HJ") == 0) JoinMethod = HashJoin;
-  }
+    if (chdir(argv[1]) < 0) {
+        perror("chdir");
+        exit(1);
+    }
 
-  // create buffer manager
-  
-  bufMgr = new BufMgr(100);
-  
-  // open relation and attribute catalogs
+    JoinMethod = NLJoin;  // default join method
+    if (argc == 3)        // alternative join method specified
+    {
+        if (strcmp(argv[2], "SM") == 0)
+            JoinMethod = SMJoin;
+        else if (strcmp(argv[2], "HJ") == 0)
+            JoinMethod = HashJoin;
+    }
 
-  Status status;
-  relCat = new RelCatalog(status);
-  if (status == OK)
-    attrCat = new AttrCatalog(status);
-  if (status != OK) {
-    error.print(status);
-    exit(1);
-  }
+    // create buffer manager
+    bufMgr = new BufMgr(100);
 
-  cout << "Welcome to Minirel" << endl;
-  cout << "    Using ";
-  if (JoinMethod == NLJoin) {cout << "Nested Loops Join Method" << endl;}
-  else 
-  if (JoinMethod == HashJoin) {cout << "Hash Join Method" << endl;}
-  else {cout << "Sort Merge Join Method" << endl;}
+    // open relation and attribute catalogs
+    Status status;
+    relCat = new RelCatalog(status);
+    if (status == OK) attrCat = new AttrCatalog(status);
+    if (status != OK) {
+        error.print(status);
+        exit(1);
+    }
 
-  extern void parse();
-  parse();
+    cout << "Welcome to Minirel" << endl;
+    cout << "    Using ";
+    if (JoinMethod == NLJoin) {
+        cout << "Nested Loops Join Method" << endl;
+    } else if (JoinMethod == HashJoin) {
+        cout << "Hash Join Method" << endl;
+    } else {
+        cout << "Sort Merge Join Method" << endl;
+    }
 
-  return 0;
+    extern void parse();
+    parse();
+
+    return 0;
 }

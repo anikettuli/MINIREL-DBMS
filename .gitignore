@@ -1,0 +1,18 @@
+# Compiled executables
+qutest
+qutestHJ
+qutestNL
+qutestSM
+uttest
+data/create
+
+# Object files
+*.o
+
+# Generated parser files
+parser/y.tab.c
+parser/y.tab.h
+parser/lex.yy.c
+
+# Other
+*.out
